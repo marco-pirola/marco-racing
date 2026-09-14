@@ -155,9 +155,29 @@ save migration + corruption recovery, and unlock progression.
 
 ---
 
+## 🌐 Web build
+
+The game also runs in the browser via [pygbag](https://github.com/pygame-web/pygbag),
+which compiles the same source to WebAssembly. `main.py` and `Game.run()` are
+asyncio-based specifically so the same entry point works unchanged on both
+desktop (`asyncio.run`) and the web (pygbag's own event loop).
+
+```bash
+pip install pygbag
+python -m pygbag --build main.py     # writes static output to build/web/
+```
+
+`build/web/` is generated output and is not committed (see `.gitignore`).
+Serve it locally with `python -m pygbag main.py` (opens a dev server +
+browser), or deploy the `build/web/` folder to any static host — a
+`vercel.json` is included for one-command deploys to Vercel
+(`vercel --prod`, with `outputDirectory` already pointed at `build/web`).
+
+---
+
 ## 🛠 Technologies
 
-Python 3.10+ · Pygame 2 · nothing else.
+Python 3.10+ · Pygame 2 · pygbag (web build) · nothing else.
 
 ---
 

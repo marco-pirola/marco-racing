@@ -5,6 +5,8 @@ Flow:  MENU -> TRACK SELECT -> GARAGE (car select) -> RACE -> RESULTS -> ...
 
 from __future__ import annotations
 
+import asyncio
+
 import pygame
 
 from . import settings
@@ -163,13 +165,16 @@ class Game:
     # ================================================================ #
     #  Loop
     # ================================================================ #
-    def run(self):
+    async def run(self):
         try:
             while self.running:
                 dt = min(self.clock.tick(settings.TARGET_FPS) / 1000.0, settings.MAX_FRAME_TIME)
                 self._handle_events()
                 self._update(dt)
                 self._draw()
+                # Yields control back to the browser's event loop each frame.
+                # A no-op on desktop where the event loop is asyncio.run().
+                await asyncio.sleep(0)
             self._shutdown()
         except Exception:
             import traceback
@@ -295,5 +300,5 @@ class Game:
         pygame.display.flip()
 
 
-def main():
-    Game().run()
+async def main():
+    await Game().run()
