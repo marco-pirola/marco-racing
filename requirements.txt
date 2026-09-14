@@ -1,0 +1,2 @@
+# Marco Racing dependencies
+pygame>=2.5,<3.0
